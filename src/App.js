@@ -3,23 +3,30 @@ import { useState } from "react";
 
 import CategoriesPanel from "./components/CategoryPanel.jsx";
 import TodoPanel from "./components/TodoPanel.jsx";
+import { FiFeather } from "react-icons/fi";
+
 
 // Main App component
 function App() {
 
   // Determine content panel
   const [selectedPanel, setSelectedPanel] = useState("categories");
+  const [selectedCategory, setSelectedCategory] = useState(null);
   let contentPanel;
   if (selectedPanel === "categories") {
-    contentPanel = <CategoriesPanel />
+    contentPanel = <CategoriesPanel setSelectedPanel={setSelectedPanel} setSelectedCategory={setSelectedCategory} />
   } else {
-    contentPanel = <TodoPanel />
+    contentPanel = <TodoPanel setSelectedPanel={setSelectedPanel} selectedCategory={selectedCategory} />
   }
 
   return (
     <div className="w-screen h-screen flex flex-col items-center bg-background">
       <div className="w-[700px] h-full p-20 flex flex-col gap-4">
 
+        <div className="flex p-4 flex-row gap-2 items-center text-primary justify-center">
+          <FiFeather size={36} />
+          <span className="font-bold text-4xl">Achievo</span>
+        </div>
         <div className="w-full rounded-lg px-5 py-4 flex flex-row items-center gap-3 bg-secbackground">
           <FiSearch size={20} className="text-text" />
           <input
@@ -27,7 +34,6 @@ function App() {
             placeholder="Search for item..."
           />
         </div>
-
         <div className="flex-1 rounded-lg p-5 bg-secbackground">
           {contentPanel}
         </div>
