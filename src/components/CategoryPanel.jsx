@@ -22,6 +22,8 @@ const CategoryPanel = ({ setSelectedPanel, setSelectedCategory }) => {
     // Save categories to local storage whenever it changes
     useEffect(() => {
         localStorage.setItem('categories', JSON.stringify(categories));
+        console.log(categories);
+        console.log(categories.length);
     }, [categories]);
 
     // Add new category
@@ -34,12 +36,12 @@ const CategoryPanel = ({ setSelectedPanel, setSelectedCategory }) => {
         }
 
         // Add new category
-        const newCatergory = {
-            id: categories.lenght + 1,
+        const newCategory = {
+            id: categories.length + 1,
             categoryName: newCategoryName,
             todos: []
         }
-        setCategories([...categories, newCatergory]);
+        setCategories([...categories, newCategory]);
 
         // Clear input
         document.getElementById('categoryInput').value = '';
@@ -51,23 +53,25 @@ const CategoryPanel = ({ setSelectedPanel, setSelectedCategory }) => {
     }
 
     return (
-        <div className='flex flex-1 flex-col h-full w-full'>
-            <div className='flex-1 w-full'>
-                <span className='text-md items-center gap-3 justify-center flex w-full font-semibold text-text'>
-                    <FiTag size={18} />
-                    Select a category
-                </span>
-                <hr className='mx-2 my-4 border-sectext' />
-                <div className='flex flex-col gap-2'>
-                    {categories.map((category) => (
-                        <CategoryItem key={category.id} setSelectedCategory={setSelectedCategory} setSelectedPanel={setSelectedPanel} categoryObject={category} deleteCategoryFunction={deleteCategory} />
-                    ))}
-                </div>
+        <div className='w-full h-full flex flex-col bg-blue-600'>
+            <div className='overflow-y-auto bg-red-500'>
+                {categories.length === 0 ?
+                    <div className='h-full w-full flex items-center justify-center text-text text-md font-semibold'>
+                        No categories added yet...
+                    </div>
+                    :
+                    <div className='flex flex-col gap-2'>
+                        {categories.map((category) => (
+                            <CategoryItem key={category.id} setSelectedCategory={setSelectedCategory} setSelectedPanel={setSelectedPanel} categoryObject={category} deleteCategoryFunction={deleteCategory} />
+                        ))}
+                    </div>
+                }
             </div>
-            <div className='w-full p-3 flex flex-row gap-2 items-center justify-center'>
+            <hr className='mx-2 my-4 border-sectext' />
+            <div className='w-full flex flex-row gap-2 items-center justify-center rounded-md bg-background px-3 py-2'>
                 <input
                     id='categoryInput'
-                    className="w-auto hover:bg-background focus:bg-background rounded-md px-3 py-2 bg-transparent outline-none text-text"
+                    className="w-full bg-transparent p-1 rounded-md outline-none text-text"
                     placeholder="Add new category..."
                 />
                 <button className=''>

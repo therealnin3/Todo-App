@@ -26,10 +26,11 @@ const CategoryItem = ({ setSelectedPanel, setSelectedCategory, categoryObject, d
     }
 
     return (
-        <div className='w-full flex gap-3 justify-between items-center flex-row px-4 py-2 hover:font-semibold rounded-lg text-text hover:text-secbackground hover:bg-primary'>
+        <div
+            className='w-full flex flex-wrap gap-3 justify-between items-center flex-row px-4 py-2 hover:font-semibold rounded-lg text-text hover:text-secbackground hover:bg-primary'>
             <div
                 onClick={() => { setSelectedPanel("todos"); setSelectedCategory(categoryObject); }}
-                className='w-1/2 cursor-pointer h-full flex-wrap items-center'>
+                className='w-1/2 overflow-auto cursor-pointer h-full flex-wrap items-center'>
                 {categoryObject.categoryName}
             </div>
             <div className='flex flex-row gap-3'>
