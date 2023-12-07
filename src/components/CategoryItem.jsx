@@ -1,43 +1,36 @@
-import { React, useState } from 'react';
-import { FiTrash, FiEdit3, FiCheck, FiX } from "react-icons/fi";
+import { React, useState } from "react";
+import { FiTrash, FiEdit3, FiCheck, FiX, FiFolder } from "react-icons/fi";
 
-const CategoryItem = ({ setSelectedPanel, setSelectedCategory, categoryObject, deleteCategoryFunction }) => {
-
-    // Determin type of icons
-    const [isEditingName, setIsEditingName] = useState(false);
-    let icons;
-    if (isEditingName) {
-        icons =
-            <>
-                <FiCheck size={18} />
-                <FiX size={18} />
-            </>
-    } else {
-        icons =
-            <>
-                <FiEdit3 onClick={toggleEditingMode} size={18} />
-                <FiTrash onClick={() => deleteCategoryFunction(categoryObject.categoryName)} size={18} />
-            </>
-    }
-
-    // Set editing mode
-    function toggleEditingMode() {
-        setIsEditingName(!isEditingName);
-    }
-
-    return (
-        <div
-            className='w-full flex flex-wrap gap-3 justify-between items-center flex-row px-4 py-2 hover:font-semibold rounded-lg text-text hover:text-secbackground hover:bg-primary'>
-            <div
-                onClick={() => { setSelectedPanel("todos"); setSelectedCategory(categoryObject); }}
-                className='w-1/2 overflow-auto cursor-pointer h-full flex-wrap items-center'>
-                {categoryObject.categoryName}
-            </div>
-            <div className='flex flex-row gap-3'>
-                {icons}
-            </div>
+const CategoryItem = ({
+  setSelectedPanel,
+  setSelectedCategory,
+  categoryObject,
+  deleteCategoryFunction,
+}) => {
+  return (
+    <div className="group flex w-full flex-row items-center rounded-lg px-3 py-2 hover:bg-primary">
+      <div
+        onClick={() => {
+          setSelectedPanel("todos");
+          setSelectedCategory(categoryObject);
+        }}
+        className="flex flex-1 flex-row items-center justify-center gap-4"
+      >
+        <FiFolder size={20} className="text-primary group-hover:text-white" />
+        <div className="flex-1 text-text group-hover:text-white">
+          {categoryObject.categoryName}
         </div>
-    );
+      </div>
+      <div className="flex flex-row gap-3 group-hover:text-white">
+        <FiEdit3 size={20} className="text-text group-hover:text-white" />
+        <FiTrash
+          onClick={() => deleteCategoryFunction(categoryObject.categoryName)}
+          size={20}
+          className="text-text group-hover:text-white"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default CategoryItem;
