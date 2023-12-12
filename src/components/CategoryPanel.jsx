@@ -11,8 +11,6 @@ const CategoryPanel = ({
   // Save categories to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem("categories", JSON.stringify(categories));
-    console.log(categories);
-    console.log(categories.length);
   }, [categories]);
 
   // Add new category
@@ -57,7 +55,7 @@ const CategoryPanel = ({
       <div className="scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex-1 flex-col overflow-y-auto rounded-lg scrollbar-thin scrollbar-track-background scrollbar-thumb-primary">
         {categories.length === 0 ? (
           <div className="flex h-full w-full items-center justify-center text-text">
-            No folders have been created yet...
+            No lists have been created yet...
           </div>
         ) : (
           <div className="flex flex-col gap-1">
@@ -77,9 +75,13 @@ const CategoryPanel = ({
         <input
           id="categoryInput"
           className="flex-1 bg-transparent text-text outline-none"
-          placeholder="Add a new folder..."
+          placeholder="Add a new list..."
         />
-        <FiPlus onClick={addCategory} className="text-primary" size={24} />
+        <FiPlus
+          onClick={addCategory}
+          className="cursor-pointer text-primary hover:text-white"
+          size={24}
+        />
       </div>
     </div>
   );

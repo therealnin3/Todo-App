@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import CategoriesPanel from "./components/CategoryPanel.jsx";
 import TodoPanel from "./components/TodoPanel.jsx";
-import { FiFeather, FiGithub } from "react-icons/fi";
+import { FiLink2, FiX, FiGithub } from "react-icons/fi";
 
 // Main App component
 function App() {
@@ -40,6 +40,24 @@ function App() {
     }
   }, [selectedCategory]);
 
+  // Function to handle search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchCategoriesResults, setsearchCategoriesResults] = useState([]);
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    if (value !== "") {
+      setSelectedPanel("searching");
+    } else {
+      setSelectedPanel("categories");
+    }
+    setSearchTerm(value);
+
+    // Search for categories with matching name
+    const results = categories.filter((category) =>
+      category.categoryName.toLowerCase().includes(value.toLowerCase()),
+    );
+    setsearchCategoriesResults(results);
+  };
   return (
     <div className="flex h-screen w-screen justify-center bg-background">
       <div className="flex h-full w-[550px] flex-col gap-5  py-28">
@@ -52,9 +70,22 @@ function App() {
           <input
             className="flex-1 bg-transparent text-text outline-none"
             placeholder="Search for item..."
+            onChange={handleSearch}
+            value={searchTerm}
           />
+          {searchTerm !== "" && (
+            <FiX
+              size={24}
+              className="cursor-pointer text-primary"
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedPanel("categories");
+              }}
+            />
+          )}
         </div>
-        <div className="flex-1 overflow-auto  rounded-lg bg-secbackground px-6 py-4 scrollbar-thumb-black">
+
+        <div className="flex-1 overflow-auto rounded-lg bg-secbackground px-6 py-4 scrollbar-thumb-black">
           {selectedPanel === "categories" ? (
             <CategoriesPanel
               setSelectedPanel={setSelectedPanel}
@@ -62,61 +93,52 @@ function App() {
               categories={categories}
               setCategories={setCategories}
             />
-          ) : (
+          ) : selectedPanel === "todos" ? (
             <TodoPanel
               setSelectedPanel={setSelectedPanel}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
+              setCategories={setCategories}
+              categories={categories}
             />
+          ) : (
+            <div className="flex h-full w-full">
+              {searchCategoriesResults.length > 0 ? (
+                <div className="flex flex-1 flex-col">
+                  <label className="my-2 flex w-full items-center justify-center px-4 py-1 text-text">
+                    Search results:
+                  </label>
+                  <div>
+                    {searchCategoriesResults.map((category) => (
+                      <div
+                        key={category.id}
+                        className="group my-2 flex flex-1 cursor-pointer flex-row items-center rounded-lg px-4 py-2 hover:bg-primary"
+                        onClick={() => {
+                          setSelectedPanel("todos");
+                          setSelectedCategory(category);
+                        }}
+                      >
+                        <div className="flex-1 text-text group-hover:text-white">
+                          {category.categoryName}
+                        </div>
+                        <FiLink2
+                          size={20}
+                          className="cursor-pointer text-primary group-hover:text-white"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-1  flex-col items-center justify-center gap-4">
+                  <div className=" text-text">No results found.</div>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
     </div>
-    // <div className="flex h-screen w-screen flex-col items-center bg-background">
-    //   <div class=" flex h-full w-[700px] flex-col gap-4 p-20">
-    //     {/*  */}
-    //     {/* <div className="flex w-full flex-1 overflow-auto rounded-md bg-red-500 p-1">
-    //       <div className="h-full w-full overflow-auto bg-blue-500">
-    //         <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p> <p>text</p>
-    //         <p>text</p>
-    //       </div>
-    //     </div> */}
-    //     {/*  */}
-    //     <div className="flex flex-row items-center justify-center gap-2 p-4 text-primary">
-    //       <FiFeather size={36} />
-    //       <span className="text-4xl font-bold">Achievo</span>
-    //     </div>
-    //     <div className="flex w-full flex-row items-center gap-3 rounded-lg bg-secbackground px-5 py-4">
-    //       <FiSearch size={20} className="text-text" />
-    //       <input
-    //         className="flex-1 bg-transparent text-text outline-none"
-    //         placeholder="Search for item..."
-    //       />
-    //     </div>
-    //     <div className="flex-1 rounded-lg bg-secbackground p-5">
-    //       {contentPanel}
-    //     </div>
-    //   </div>
-    // </div>
   );
 }
 

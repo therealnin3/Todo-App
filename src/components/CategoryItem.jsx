@@ -8,7 +8,7 @@ const CategoryItem = ({
   deleteCategoryFunction,
 }) => {
   return (
-    <div className="group flex w-full flex-row items-center rounded-lg px-3 py-2 hover:bg-primary">
+    <div className="group flex w-full cursor-pointer flex-row items-center rounded-lg px-3 py-2 hover:bg-primary">
       <div
         onClick={() => {
           setSelectedPanel("todos");
@@ -22,11 +22,10 @@ const CategoryItem = ({
         </div>
       </div>
       <div className="flex flex-row gap-3 group-hover:text-white">
-        <FiEdit3 size={20} className="text-text group-hover:text-white" />
         <FiTrash
           onClick={() => deleteCategoryFunction(categoryObject.categoryName)}
           size={20}
-          className="text-text group-hover:text-white"
+          className="cursor-pointer text-text group-hover:text-white"
         />
       </div>
     </div>
