@@ -69,7 +69,7 @@ function App() {
           <FiSearch size={24} className="text-primary" />
           <input
             className="flex-1 bg-transparent text-text outline-none"
-            placeholder="Search for item..."
+            placeholder="Search for lists..."
             onChange={handleSearch}
             value={searchTerm}
           />
@@ -106,7 +106,7 @@ function App() {
               {searchCategoriesResults.length > 0 ? (
                 <div className="flex flex-1 flex-col">
                   <label className="my-2 flex w-full items-center justify-center px-4 py-1 text-text">
-                    Search results:
+                    Search results ({searchCategoriesResults.length}) :
                   </label>
                   <div>
                     {searchCategoriesResults.map((category) => (
